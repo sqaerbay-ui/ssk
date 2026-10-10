@@ -1,5 +1,30 @@
 [
-  { "name": "资源名称1", "link": "https://pan.baidu.com/s/xxxxx" },
-  { "name": "资源名称2", "link": "https://pan.baidu.com/s/yyyyy" },
-  { "name": "资源名称3", "link": "https://pan.baidu.com/s/zzzzz" }
+  {
+    "name": "虐杀原形1+2典藏版",
+    "link": "https://pan.quark.cn/s/f1f2d8641f81"
+  },
+  {
+    "name": "红警地图大合集",
+    "link": "https://pan.quark.cn/s/d67ec199004b"
+  },
+  {
+    "name": "红警游戏包合集",
+    "link": "https://pan.quark.cn/s/b898249a7a56"
+  },
+  {
+    "name": "魔兽争霸地图合集",
+    "link": "https://pan.quark.cn/s/b16236b1c8cf"
+  },
+  {
+    "name": "魔兽争霸+地图包",
+    "link": "https://pan.quark.cn/s/51311ecae387"
+  },
+  {
+    "name": "流浪要塞",
+    "link": "https://pan.quark.cn/s/3ce1b0ad9a5d"
+  },
+  {
+    "name": "魔兽争霸战役合集",
+    "link": "https://pan.quark.cn/s/3e1a088cce15"
+  }
 ]
