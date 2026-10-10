@@ -136,9 +136,9 @@ mark{background:var(--mark-bg);color:var(--mark-text);padding:0 1px;border-radiu
     <button class="load-more" id="loadMore" hidden>显示更多</button>
   </div>
   <div class="empty" id="empty" hidden>
-    <div class="empty-icon">🔍</div>
-    <p>没有找到匹配的资源</p>
-    <p style="font-size:12px;opacity:.7">试试换个关键词</p>
+    <div class="empty-icon" id="emptyIcon">🔍</div>
+    <p id="emptyTitle">没有找到匹配的资源</p>
+    <p id="emptyDesc" style="font-size:12px;opacity:.7">试试换个关键词</p>
   </div>
 </main>
 
@@ -146,7 +146,7 @@ mark{background:var(--mark-bg);color:var(--mark-text);padding:0 1px;border-radiu
 
 <script>
 /* ============================================================
-   搜索逻辑：读取同目录下的 data.json 文件
+   资源搜索逻辑：读取同目录下的 data.json，默认不显示列表
    ============================================================ */
 const DATA_URL = 'data.json';
 const PAGE_SIZE = 50;
@@ -159,6 +159,9 @@ const searchInput = $('searchInput');
 const clearBtn = $('clearBtn');
 const resultsEl = $('results');
 const emptyEl = $('empty');
+const emptyIcon = $('emptyIcon');
+const emptyTitle = $('emptyTitle');
+const emptyDesc = $('emptyDesc');
 const loadMoreBtn = $('loadMore');
 const totalCountEl = $('totalCount');
 const themeToggle = $('themeToggle');
@@ -235,7 +238,7 @@ async function loadData(){
 
 function filterData(){
   const q = state.query.trim().toLowerCase();
-  if(!q) return DATA;
+  if(!q) return [];
   const terms = q.split(/\s+/).filter(Boolean);
   return DATA.filter(item=>{
     const hay = (item.name||'').toLowerCase();
@@ -246,9 +249,24 @@ function filterData(){
 function render(){
   if(!DATA.length){
     emptyEl.hidden = false;
-    emptyEl.querySelector('p').textContent = 'data.json 里没有数据';
+    emptyIcon.textContent = '⚠️';
+    emptyTitle.textContent = 'data.json 里没有数据';
+    emptyDesc.textContent = '';
     totalCountEl.textContent = '0 条';
     loadMoreBtn.hidden = true;
+    return;
+  }
+
+  const q = state.query.trim();
+  // 没有搜索词时：不显示列表，只显示提示
+  if(!q){
+    resultsEl.innerHTML = '';
+    emptyEl.hidden = false;
+    emptyIcon.textContent = '🔍';
+    emptyTitle.textContent = '输入关键词开始搜索';
+    emptyDesc.textContent = '支持按资源名称模糊搜索';
+    loadMoreBtn.hidden = true;
+    totalCountEl.textContent = `共 ${DATA.length} 条资源`;
     return;
   }
 
@@ -262,15 +280,16 @@ function render(){
   if(!filtered.length){
     resultsEl.innerHTML = '';
     emptyEl.hidden = false;
-    emptyEl.querySelector('p').textContent = '没有找到匹配的资源';
-    emptyEl.querySelector('p:last-child').textContent = '试试换个关键词';
+    emptyIcon.textContent = '🔍';
+    emptyTitle.textContent = '没有找到匹配的资源';
+    emptyDesc.textContent = '试试换个关键词';
     loadMoreBtn.hidden = true;
     return;
   }
-  emptyEl.hidden = true;
 
+  emptyEl.hidden = true;
   resultsEl.innerHTML = toShow.map(item=>{
-    const nameHtml = highlight(item.name, state.query.trim());
+    const nameHtml = highlight(item.name, q);
     const link = item.link || '';
     return `
       <div class="result-item">
@@ -377,7 +396,6 @@ document.addEventListener('keydown', e=>{
   }
 });
 
-// 启动
 loadData();
 </script>
 </body>
