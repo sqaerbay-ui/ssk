@@ -115,7 +115,7 @@ mark{background:var(--mark-bg);color:var(--mark-text);padding:0 1px;border-radiu
     <div class="header-top">
       <h1 class="logo">资源搜索</h1>
       <div class="header-actions">
-        <span class="count" id="totalCount">—</span>
+        <span class="count" id="totalCount">加载中...</span>
         <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
       </div>
     </div>
@@ -145,15 +145,13 @@ mark{background:var(--mark-bg);color:var(--mark-text);padding:0 1px;border-radiu
 <div class="toast" id="toast"></div>
 
 <script>
-/* ========== 数据区：只保留名称和链接 ========== */
-const DATA = [
-  { "name": "示例资源1", "link": "https://pan.baidu.com/s/xxxxx" },
-  { "name": "示例资源2", "link": "https://pan.baidu.com/s/yyyyy" },
-  // 在这里继续添加...
-];
-/* ============================================ */
-
+/* ============================================================
+   搜索逻辑：读取同目录下的 data.json 文件
+   ============================================================ */
+const DATA_URL = 'data.json';
 const PAGE_SIZE = 50;
+
+let DATA = [];
 const state = { query: '', shown: PAGE_SIZE };
 
 const $ = id => document.getElementById(id);
@@ -214,6 +212,27 @@ function debounce(fn, ms){
   };
 }
 
+async function loadData(){
+  try {
+    const res = await fetch(DATA_URL);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if(!Array.isArray(json)) throw new Error('数据格式错误，必须是数组');
+    DATA = json;
+    render();
+  } catch (err) {
+    console.error('数据加载失败:', err);
+    resultsEl.innerHTML = `
+      <div class="empty" style="display:block">
+        <div class="empty-icon">⚠️</div>
+        <p>数据加载失败</p>
+        <p style="font-size:12px;opacity:.7">请检查 data.json 是否存在且格式正确</p>
+      </div>
+    `;
+    totalCountEl.textContent = '加载失败';
+  }
+}
+
 function filterData(){
   const q = state.query.trim().toLowerCase();
   if(!q) return DATA;
@@ -226,12 +245,10 @@ function filterData(){
 
 function render(){
   if(!DATA.length){
-    resultsEl.innerHTML = '';
     emptyEl.hidden = false;
-    emptyEl.querySelector('p').textContent = '还没有数据';
-    emptyEl.querySelector('p:last-child').textContent = '请在代码的 DATA 数组里填入资源';
-    loadMoreBtn.hidden = true;
+    emptyEl.querySelector('p').textContent = 'data.json 里没有数据';
     totalCountEl.textContent = '0 条';
+    loadMoreBtn.hidden = true;
     return;
   }
 
@@ -255,16 +272,13 @@ function render(){
   resultsEl.innerHTML = toShow.map(item=>{
     const nameHtml = highlight(item.name, state.query.trim());
     const link = item.link || '';
-    const linkRow = link
-      ? `<div class="result-link-row">
-           <a class="result-link" href="${escapeHtml(link)}" target="_blank" rel="noopener" title="${escapeHtml(link)}">${escapeHtml(link)}</a>
-           <button class="copy-btn" data-link="${escapeHtml(link)}">复制</button>
-         </div>`
-      : '';
     return `
       <div class="result-item">
         <div class="result-name">${nameHtml}</div>
-        ${linkRow}
+        <div class="result-link-row">
+          <a class="result-link" href="${escapeHtml(link)}" target="_blank" rel="noopener">${escapeHtml(link)}</a>
+          <button class="copy-btn" data-link="${escapeHtml(link)}">复制</button>
+        </div>
       </div>
     `;
   }).join('');
@@ -309,7 +323,9 @@ resultsEl.addEventListener('click', e=>{
   const link = btn.dataset.link;
   if(!link) return;
   const done = ()=>{
-    showToast('已复制链接');
+    toastEl.textContent = '已复制链接';
+    toastEl.classList.add('show');
+    setTimeout(()=>toastEl.classList.remove('show'), 1500);
     const old = btn.textContent;
     btn.textContent = '已复制';
     setTimeout(()=>btn.textContent = old, 1200);
@@ -348,14 +364,6 @@ themeToggle.addEventListener('click', ()=>{
   }
 });
 
-let toastTimer;
-function showToast(msg){
-  toastEl.textContent = msg;
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 1500);
-}
-
 document.addEventListener('keydown', e=>{
   if(e.key === '/' && document.activeElement !== searchInput){
     e.preventDefault();
@@ -369,7 +377,8 @@ document.addEventListener('keydown', e=>{
   }
 });
 
-render();
+// 启动
+loadData();
 </script>
 </body>
 </html>
