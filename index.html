@@ -6,105 +6,211 @@
 <title>资源搜索</title>
 <style>
 :root{
-  --bg:#f6f8fa; --card:#fff; --border:#d8dee4;
-  --text:#1f2328; --text-secondary:#59636e; --text-muted:#8b949e;
-  --accent:#0969da; --accent-bg:#ddf4ff; --hover:#f3f4f6;
-  --mark-bg:#fff8c5; --mark-text:#4d2d00;
-  --shadow:0 1px 3px rgba(31,35,40,.06);
-  --radius:10px;
+  --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --accent: #8b5cf6;
+  --accent-gradient: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+  --accent-bg: #ede9fe;
+  --hover: #f8fafc;
+  --mark-bg: #fef08a;
+  --mark-text: #854d0e;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --radius: 16px;
+  --radius-pill: 50px;
 }
 [data-theme="dark"]{
-  --bg:#0d1117; --card:#161b22; --border:#30363d;
-  --text:#e6edf3; --text-secondary:#9198a1; --text-muted:#6e7681;
-  --accent:#4493f8; --accent-bg:#121d2f; --hover:#1c2128;
-  --mark-bg:#9e6a03; --mark-text:#fff8c5;
-  --shadow:0 1px 3px rgba(0,0,0,.3);
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --card: #1e293b;
+  --border: #334155;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #a78bfa;
+  --accent-bg: #2e1065;
+  --hover: #334155;
+  --mark-bg: #854d0e;
+  --mark-text: #fef08a;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-  background:var(--bg);color:var(--text);line-height:1.6;
+  background:var(--bg-gradient);
+  color:var(--text);line-height:1.6;
   min-height:100vh;
+  transition: background 0.3s;
 }
 .header{
   position:sticky;top:0;z-index:100;
-  background:rgba(246,248,250,.85);
-  backdrop-filter:saturate(180%) blur(12px);
-  border-bottom:1px solid var(--border);
+  background:rgba(255, 255, 255, 0.7);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid rgba(255, 255, 255, 0.3);
+  padding: 20px 0;
 }
-[data-theme="dark"] .header{background:rgba(13,17,23,.85)}
-.header-inner{max-width:820px;margin:0 auto;padding:16px 20px 12px}
-.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.logo{font-size:17px;font-weight:600}
-.header-actions{display:flex;align-items:center;gap:10px}
-.count{font-size:12px;color:var(--text-muted)}
+[data-theme="dark"] .header{
+  background:rgba(15, 23, 42, 0.7);
+  border-bottom:1px solid rgba(255, 255, 255, 0.05);
+}
+.header-inner{max-width:720px;margin:0 auto;padding:0 20px}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.logo{font-size:22px;font-weight:800;letter-spacing:-0.5px;
+  background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.header-actions{display:flex;align-items:center;gap:12px}
+.count{font-size:13px;color:var(--text-secondary);background:var(--hover);padding:4px 12px;border-radius:20px;}
 .theme-toggle{
-  width:32px;height:32px;border-radius:8px;border:1px solid var(--border);
-  background:var(--card);cursor:pointer;font-size:14px;
+  width:36px;height:36px;border-radius:50%;border:1px solid var(--border);
+  background:var(--card);cursor:pointer;font-size:16px;
   display:flex;align-items:center;justify-content:center;
+  transition: all 0.2s;box-shadow: var(--shadow);
 }
-.search-box{position:relative;display:flex;align-items:center}
+.theme-toggle:hover{transform: scale(1.1);}
+
+/* 搜索框组合 */
+.search-box{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 6px 6px 6px 20px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s;
+}
+.search-box:focus-within{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-bg);
+}
 .search-icon{
-  position:absolute;left:14px;width:17px;height:17px;
-  color:var(--text-muted);pointer-events:none;
+  width:20px;height:20px;color:var(--text-muted);flex-shrink:0;
 }
 #searchInput{
-  width:100%;padding:12px 42px;border:1px solid var(--border);
-  border-radius:var(--radius);background:var(--card);
-  font-size:14px;font-family:inherit;color:var(--text);
-  outline:none;
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  min-width: 0;
 }
-#searchInput:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+#searchInput::placeholder{color:var(--text-muted)}
 .clear-btn{
-  position:absolute;right:10px;width:22px;height:22px;border-radius:50%;
+  width: 28px;height: 28px;border-radius: 50%;
   border:none;background:var(--text-muted);color:var(--card);
-  cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;
-  opacity:.6;
+  cursor:pointer;font-size:16px;line-height: 1;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0.5;transition:opacity 0.15s;flex-shrink: 0;
 }
 .clear-btn:hover{opacity:1}
-.main{max-width:820px;margin:0 auto;padding:16px 20px 60px}
-.results{display:flex;flex-direction:column;gap:8px}
+.search-submit{
+  background: var(--accent-gradient);
+  color: white;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+.search-submit:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+/* 结果区域 */
+.main{max-width:720px;margin:0 auto;padding:24px 20px 80px}
+.results{display:flex;flex-direction:column;gap:12px}
 .result-item{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:14px 16px;
-  transition:border-color .15s,box-shadow .15s;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
-.result-item:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.result-item:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent);
+}
 .result-name{
-  font-size:14px;font-weight:500;color:var(--text);
-  word-break:break-all;line-height:1.5;margin-bottom:6px;
+  font-size:15px;font-weight:600;color:var(--text);
+  word-break:break-all;line-height:1.5;margin-bottom:12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.result-link-row{display:flex;align-items:center;gap:8px}
+.result-name::before{
+  content: "🎮";
+  font-size: 16px;
+}
+.result-link-row{display:flex;align-items:center;gap:12px}
 .result-link{
-  font-size:12px;color:var(--accent);text-decoration:none;
+  font-size:13px;color:var(--text-secondary);text-decoration:none;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;
+  background: var(--hover);padding: 6px 12px;border-radius: 8px;
+  transition: color 0.2s;
 }
-.result-link:hover{text-decoration:underline}
+.result-link:hover{color: var(--accent);text-decoration:underline;}
 .copy-btn{
-  flex-shrink:0;padding:3px 10px;font-size:11px;border-radius:5px;
+  flex-shrink:0;padding:8px 18px;font-size:12px;border-radius:8px;
   border:1px solid var(--border);background:transparent;
   color:var(--text-secondary);cursor:pointer;font-family:inherit;
+  font-weight: 500;
+  transition: all 0.2s;
 }
-.copy-btn:hover{background:var(--hover);color:var(--accent);border-color:var(--accent)}
-mark{background:var(--mark-bg);color:var(--mark-text);padding:0 1px;border-radius:2px}
-.empty{text-align:center;padding:70px 20px;color:var(--text-muted)}
-.empty-icon{font-size:38px;margin-bottom:14px;opacity:.5}
-.load-more-wrap{text-align:center;margin-top:18px}
-.load-more{
-  padding:9px 26px;border-radius:8px;border:1px solid var(--border);
-  background:var(--card);color:var(--text-secondary);font-size:13px;
-  cursor:pointer;font-family:inherit;
+.copy-btn:hover{
+  background: var(--accent-bg); color: var(--accent);
+  border-color: var(--accent);
 }
-.load-more:hover{border-color:var(--accent);color:var(--accent)}
+
+/* 空状态 */
+.empty{
+  text-align:center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+  animation: fadeIn 0.5s ease;
+}
+.empty-icon{
+  font-size: 56px;margin-bottom:20px;opacity:0.8;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+.empty p:first-of-type{font-size: 18px;font-weight: 600;color: var(--text);margin-bottom: 8px;}
+.empty p:last-of-type{font-size: 14px;}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Toast */
 .toast{
-  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--text);color:var(--bg);padding:8px 18px;border-radius:8px;
-  font-size:13px;opacity:0;pointer-events:none;transition:all .25s;z-index:999;
+  position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--text);color:var(--card);padding:12px 24px;border-radius:12px;
+  font-size:14px;font-weight: 500;
+  opacity:0;pointer-events:none;transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);z-index:999;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
 @media (max-width:640px){
-  .header-inner,.main{padding-left:14px;padding-right:14px}
-  .result-item{padding:12px 14px}
+  .header-inner,.main{padding-left:16px;padding-right:16px}
+  .logo{font-size:18px}
+  .search-box{padding: 4px 4px 4px 16px;}
+  .search-submit{padding: 8px 16px;font-size: 13px;}
+  .result-item{padding:16px}
+  .result-name{font-size: 14px;}
 }
 </style>
 </head>
@@ -124,30 +230,25 @@ mark{background:var(--mark-bg);color:var(--mark-text);padding:0 1px;border-radiu
         <circle cx="11" cy="11" r="8"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
-      <input type="text" id="searchInput" placeholder="输入资源名称搜索..." autocomplete="off" spellcheck="false">
+      <input type="text" id="searchInput" placeholder="输入游戏名称即可" autocomplete="off" spellcheck="false">
       <button class="clear-btn" id="clearBtn" hidden>×</button>
+      <button class="search-submit" id="searchBtn">搜索</button>
     </div>
   </div>
 </header>
 
 <main class="main">
   <div class="results" id="results"></div>
-  <div class="load-more-wrap">
-    <button class="load-more" id="loadMore" hidden>显示更多</button>
-  </div>
-  <div class="empty" id="empty" hidden>
-    <div class="empty-icon" id="emptyIcon">🔍</div>
-    <p id="emptyTitle">没有找到匹配的资源</p>
-    <p id="emptyDesc" style="font-size:12px;opacity:.7">试试换个关键词</p>
+  <div class="empty" id="empty">
+    <div class="empty-icon">🔍</div>
+    <p id="emptyTitle">输入关键词开始搜索</p>
+    <p id="emptyDesc">支持按资源名称模糊搜索</p>
   </div>
 </main>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============================================================
-   资源搜索逻辑：读取同目录下的 data.json，默认不显示列表
-   ============================================================ */
 const DATA_URL = 'data.json';
 const PAGE_SIZE = 50;
 
@@ -156,13 +257,12 @@ const state = { query: '', shown: PAGE_SIZE };
 
 const $ = id => document.getElementById(id);
 const searchInput = $('searchInput');
+const searchBtn = $('searchBtn');
 const clearBtn = $('clearBtn');
 const resultsEl = $('results');
 const emptyEl = $('empty');
-const emptyIcon = $('emptyIcon');
 const emptyTitle = $('emptyTitle');
 const emptyDesc = $('emptyDesc');
-const loadMoreBtn = $('loadMore');
 const totalCountEl = $('totalCount');
 const themeToggle = $('themeToggle');
 const toastEl = $('toast');
@@ -229,7 +329,7 @@ async function loadData(){
       <div class="empty" style="display:block">
         <div class="empty-icon">⚠️</div>
         <p>数据加载失败</p>
-        <p style="font-size:12px;opacity:.7">请检查 data.json 是否存在且格式正确</p>
+        <p style="font-size:14px;">请检查 data.json 是否存在且格式正确</p>
       </div>
     `;
     totalCountEl.textContent = '加载失败';
@@ -248,24 +348,19 @@ function filterData(){
 
 function render(){
   if(!DATA.length){
-    emptyEl.hidden = false;
-    emptyIcon.textContent = '⚠️';
+    emptyEl.style.display = 'block';
     emptyTitle.textContent = 'data.json 里没有数据';
     emptyDesc.textContent = '';
     totalCountEl.textContent = '0 条';
-    loadMoreBtn.hidden = true;
     return;
   }
 
   const q = state.query.trim();
-  // 没有搜索词时：不显示列表，只显示提示
   if(!q){
     resultsEl.innerHTML = '';
-    emptyEl.hidden = false;
-    emptyIcon.textContent = '🔍';
+    emptyEl.style.display = 'block';
     emptyTitle.textContent = '输入关键词开始搜索';
-    emptyDesc.textContent = '支持按资源名称模糊搜索';
-    loadMoreBtn.hidden = true;
+    emptyDesc.textContent = `当前共有 ${DATA.length} 条资源，输入名称即可查找`;
     totalCountEl.textContent = `共 ${DATA.length} 条资源`;
     return;
   }
@@ -279,15 +374,13 @@ function render(){
 
   if(!filtered.length){
     resultsEl.innerHTML = '';
-    emptyEl.hidden = false;
-    emptyIcon.textContent = '🔍';
+    emptyEl.style.display = 'block';
     emptyTitle.textContent = '没有找到匹配的资源';
-    emptyDesc.textContent = '试试换个关键词';
-    loadMoreBtn.hidden = true;
+    emptyDesc.textContent = '试试换个关键词，或者减少搜索词';
     return;
   }
 
-  emptyEl.hidden = true;
+  emptyEl.style.display = 'none';
   resultsEl.innerHTML = toShow.map(item=>{
     const nameHtml = highlight(item.name, q);
     const link = item.link || '';
@@ -301,25 +394,24 @@ function render(){
       </div>
     `;
   }).join('');
-
-  if(filtered.length > state.shown){
-    loadMoreBtn.hidden = false;
-    loadMoreBtn.textContent = `显示更多（还有 ${filtered.length - state.shown} 条）`;
-  }else{
-    loadMoreBtn.hidden = true;
-  }
 }
 
 const onSearch = debounce(v=>{
   state.query = v;
   state.shown = PAGE_SIZE;
   render();
-}, 150);
+}, 200);
 
 searchInput.addEventListener('input', e=>{
   const v = e.target.value;
   clearBtn.hidden = !v;
   onSearch(v);
+});
+
+searchBtn.addEventListener('click', ()=>{
+  state.query = searchInput.value;
+  state.shown = PAGE_SIZE;
+  render();
 });
 
 clearBtn.addEventListener('click', ()=>{
@@ -329,11 +421,6 @@ clearBtn.addEventListener('click', ()=>{
   state.shown = PAGE_SIZE;
   render();
   searchInput.focus();
-});
-
-loadMoreBtn.addEventListener('click', ()=>{
-  state.shown += PAGE_SIZE;
-  render();
 });
 
 resultsEl.addEventListener('click', e=>{
