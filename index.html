@@ -2,249 +2,359 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>资源搜索</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>小白游戏资源库</title>
 <style>
-:root{
-  --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-  --card: #ffffff;
-  --border: #e2e8f0;
-  --text: #1e293b;
-  --text-secondary: #64748b;
-  --text-muted: #94a3b8;
-  --accent: #8b5cf6;
-  --accent-gradient: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
-  --accent-bg: #ede9fe;
-  --hover: #f8fafc;
-  --mark-bg: #fef08a;
-  --mark-text: #854d0e;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-  --radius: 16px;
+:root {
+  --bg-gradient: linear-gradient(180deg, #fef8e8 0%, #fde2e4 50%, #fbc2eb 100%);
+  --card-bg: #ffffff;
+  --text-main: #2b2b2b;
+  --text-sub: #6a6a6a;
+  --accent-pink: #d94b7b;
+  --accent-gold: #d4a017;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --radius-card: 16px;
   --radius-pill: 50px;
 }
-[data-theme="dark"]{
-  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --card: #1e293b;
-  --border: #334155;
-  --text: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent: #a78bfa;
-  --accent-bg: #2e1065;
-  --hover: #334155;
-  --mark-bg: #854d0e;
-  --mark-text: #fef08a;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-  background:var(--bg-gradient);
-  color:var(--text);line-height:1.6;
-  min-height:100vh;
-  transition: background 0.3s;
-}
-.header{
-  position:sticky;top:0;z-index:100;
-  background:rgba(255, 255, 255, 0.7);
-  backdrop-filter:saturate(180%) blur(16px);
-  border-bottom:1px solid rgba(255, 255, 255, 0.3);
-  padding: 20px 0;
-}
-[data-theme="dark"] .header{
-  background:rgba(15, 23, 42, 0.7);
-  border-bottom:1px solid rgba(255, 255, 255, 0.05);
-}
-.header-inner{max-width:720px;margin:0 auto;padding:0 20px}
-.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.logo{font-size:22px;font-weight:800;letter-spacing:-0.5px;
-  background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.header-actions{display:flex;align-items:center;gap:12px}
-.count{font-size:13px;color:var(--text-secondary);background:var(--hover);padding:4px 12px;border-radius:20px;}
-.theme-toggle{
-  width:36px;height:36px;border-radius:50%;border:1px solid var(--border);
-  background:var(--card);cursor:pointer;font-size:16px;
-  display:flex;align-items:center;justify-content:center;
-  transition: all 0.2s;box-shadow: var(--shadow);
-}
-.theme-toggle:hover{transform: scale(1.1);}
 
-/* 搜索框组合 */
-.search-box{
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  color: var(--text-main);
+  padding-bottom: 40px;
+}
+
+.top-nav {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  background: var(--card);
-  border: 1px solid var(--border);
+  justify-content: center;
+  gap: 10px;
+  padding: 24px 0 10px;
+}
+.nav-tag {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px 16px;
   border-radius: var(--radius-pill);
-  padding: 6px 6px 6px 20px;
-  box-shadow: var(--shadow);
-  transition: all 0.3s;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.search-box:focus-within{
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-bg);
+.nav-tag.star { color: var(--accent-gold); }
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
-.search-icon{
-  width:20px;height:20px;color:var(--text-muted);flex-shrink:0;
+
+.hero {
+  text-align: center;
+  margin-bottom: 30px;
 }
-#searchInput{
+.hero h1 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.hero .subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+}
+.hero .desc {
+  font-size: 13px;
+  color: var(--text-sub);
+  opacity: 0.8;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.feature-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  padding: 18px 10px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s;
+}
+.feature-card:hover {
+  transform: translateY(-2px);
+}
+.feature-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.feature-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.feature-card p {
+  font-size: 11px;
+  color: var(--text-sub);
+  line-height: 1.4;
+}
+
+.tags-section {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.tags-section h4 {
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+.tags-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag-pill {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0,0,0,0.04);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tag-pill .star { color: var(--accent-gold); }
+
+.scenario {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.search-area {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 8px 8px 8px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(217, 75, 123, 0.15);
+  margin-bottom: 24px;
+}
+.search-area input {
   flex: 1;
   border: none;
-  background: transparent;
+  outline: none;
   font-size: 15px;
   font-family: inherit;
-  color: var(--text);
-  outline: none;
+  color: var(--text-main);
+  background: transparent;
   min-width: 0;
 }
-#searchInput::placeholder{color:var(--text-muted)}
-.clear-btn{
-  width: 28px;height: 28px;border-radius: 50%;
-  border:none;background:var(--text-muted);color:var(--card);
-  cursor:pointer;font-size:16px;line-height: 1;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0.5;transition:opacity 0.15s;flex-shrink: 0;
-}
-.clear-btn:hover{opacity:1}
-.search-submit{
-  background: var(--accent-gradient);
+.search-area input::placeholder { color: #a0a0a0; }
+.search-area button {
+  background: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%);
   color: white;
   border: none;
-  border-radius: var(--radius-pill);
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+  font-family: inherit;
 }
-.search-submit:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+.search-area button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(252, 74, 26, 0.3);
 }
 
-/* 结果区域 */
-.main{max-width:720px;margin:0 auto;padding:24px 20px 80px}
-.results{display:flex;flex-direction:column;gap:12px}
-.result-item{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:20px;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.result-item:hover{
+.result-item {
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.result-item:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--accent);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
-.result-name{
-  font-size:15px;font-weight:600;color:var(--text);
-  word-break:break-all;line-height:1.5;margin-bottom:12px;
+.result-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.result-name::before{
+.result-title::before {
   content: "🎮";
-  font-size: 16px;
+  font-size: 18px;
 }
-.result-link-row{display:flex;align-items:center;gap:12px}
-.result-link{
-  font-size:13px;color:var(--text-secondary);text-decoration:none;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;
-  background: var(--hover);padding: 6px 12px;border-radius: 8px;
-  transition: color 0.2s;
+.result-link-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.result-link:hover{color: var(--accent);text-decoration:underline;}
-.copy-btn{
-  flex-shrink:0;padding:8px 18px;font-size:12px;border-radius:8px;
-  border:1px solid var(--border);background:transparent;
-  color:var(--text-secondary);cursor:pointer;font-family:inherit;
-  font-weight: 500;
-  transition: all 0.2s;
+.result-link-text {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-sub);
+  background: #f5f6fa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.copy-btn:hover{
-  background: var(--accent-bg); color: var(--accent);
-  border-color: var(--accent);
+.action-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%);
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.action-btn:hover { opacity: 0.9; }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #a0a0a0;
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.6; }
+.empty-state h3 { font-size: 16px; color: var(--text-sub); margin-bottom: 8px; }
+.empty-state p { font-size: 13px; }
+
+.toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.footer {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 12px;
+  color: #a0a0a0;
 }
 
-/* 空状态 */
-.empty{
-  text-align:center;
-  padding: 80px 20px;
-  color: var(--text-muted);
-  animation: fadeIn 0.5s ease;
-}
-.empty-icon{
-  font-size: 56px;margin-bottom:20px;opacity:0.8;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-}
-.empty p:first-of-type{font-size: 18px;font-weight: 600;color: var(--text);margin-bottom: 8px;}
-.empty p:last-of-type{font-size: 14px;}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Toast */
-.toast{
-  position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--text);color:var(--card);padding:12px 24px;border-radius:12px;
-  font-size:14px;font-weight: 500;
-  opacity:0;pointer-events:none;transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);z-index:999;
-  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-@media (max-width:640px){
-  .header-inner,.main{padding-left:16px;padding-right:16px}
-  .logo{font-size:18px}
-  .search-box{padding: 4px 4px 4px 16px;}
-  .search-submit{padding: 8px 16px;font-size: 13px;}
-  .result-item{padding:16px}
-  .result-name{font-size: 14px;}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 28px; }
+  .hero .subtitle { font-size: 16px; }
+  .features { grid-template-columns: 1fr 1fr; }
+  .search-area { padding-left: 14px; }
+  .search-area button { padding: 10px 20px; font-size: 14px; }
+  .result-title { font-size: 14px; }
 }
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-inner">
-    <div class="header-top">
-      <h1 class="logo">资源搜索</h1>
-      <div class="header-actions">
-        <span class="count" id="totalCount">加载中...</span>
-        <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
-      </div>
-    </div>
-    <div class="search-box">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <input type="text" id="searchInput" placeholder="输入游戏名称即可" autocomplete="off" spellcheck="false">
-      <button class="clear-btn" id="clearBtn" hidden>×</button>
-      <button class="search-submit" id="searchBtn">搜索</button>
-    </div>
+<div class="container">
+  <div class="top-nav">
+    <div class="nav-tag">💻 Windows · Android · iOS</div>
+    <div class="nav-tag star">⭐ 持续更新</div>
   </div>
-</header>
 
-<main class="main">
-  <div class="results" id="results"></div>
-  <div class="empty" id="empty">
-    <div class="empty-icon">🔍</div>
-    <p id="emptyTitle">输入关键词开始搜索</p>
-    <p id="emptyDesc">支持按资源名称模糊搜索</p>
+  <div class="hero">
+    <h1>游戏资源库</h1>
+    <div class="subtitle">全网经典游戏 一键搜索</div>
+    <div class="desc">经典单机 · 怀旧游戏 · 持续收录 · 直接获取</div>
   </div>
-</main>
+
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <h3>全网搜索</h3>
+      <p>海量游戏资源一键查找，找游戏不求人</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚀</div>
+      <h3>一键获取</h3>
+      <p>点击直接跳转网盘，无需复制繁琐链接</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📦</div>
+      <h3>持续更新</h3>
+      <p>持续收录经典单机、怀旧游戏资源</p>
+    </div>
+  </div>
+
+  <div class="tags-section">
+    <h4>亮点</h4>
+    <div class="tags-list">
+      <div class="tag-pill"><span class="star">⭐</span> 完全免费</div>
+      <div class="tag-pill"><span class="star">⭐</span> 无广告</div>
+      <div class="tag-pill"><span class="star">⭐</span> 极速获取</div>
+      <div class="tag-pill"><span class="star">⭐</span> 全平台支持</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    💡 适用：怀旧经典 · 单机大作 · 休闲游戏 · 网吧必备
+  </div>
+
+  <div class="search-area">
+    <input type="text" id="searchInput" placeholder="输入游戏名称开始搜索..." autocomplete="off" spellcheck="false">
+    <button id="searchBtn">搜索</button>
+  </div>
+
+  <div class="results" id="results"></div>
+
+  <div class="empty-state" id="emptyState">
+    <div class="icon">🎮</div>
+    <h3>输入关键词开始搜索</h3>
+    <p>例如：红警、虐杀原形、魔兽争霸</p>
+  </div>
+
+  <div class="footer">
+    小白游戏库 | 仅供个人学习交流使用
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -258,226 +368,123 @@ const state = { query: '', shown: PAGE_SIZE };
 const $ = id => document.getElementById(id);
 const searchInput = $('searchInput');
 const searchBtn = $('searchBtn');
-const clearBtn = $('clearBtn');
 const resultsEl = $('results');
-const emptyEl = $('empty');
-const emptyTitle = $('emptyTitle');
-const emptyDesc = $('emptyDesc');
-const totalCountEl = $('totalCount');
-const themeToggle = $('themeToggle');
+const emptyState = $('emptyState');
 const toastEl = $('toast');
 
-function escapeHtml(s){
-  if(s==null) return '';
-  return String(s).replace(/[&<>"']/g,c=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
 }
 
-function highlight(text, query){
+function highlight(text, query) {
   text = String(text || '');
-  if(!query) return escapeHtml(text);
+  if (!query) return escapeHtml(text);
   const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
-  if(!terms.length) return escapeHtml(text);
+  if (!terms.length) return escapeHtml(text);
   const lowerText = text.toLowerCase();
   const ranges = [];
-  for(const term of terms){
+  for (const term of terms) {
     let idx = 0;
-    while((idx = lowerText.indexOf(term, idx)) !== -1){
+    while ((idx = lowerText.indexOf(term, idx)) !== -1) {
       ranges.push([idx, idx + term.length]);
       idx += term.length;
-      if(ranges.length > 100) break;
+      if (ranges.length > 100) break;
     }
   }
-  if(!ranges.length) return escapeHtml(text);
-  ranges.sort((a,b)=>a[0]-b[0]);
+  if (!ranges.length) return escapeHtml(text);
+  ranges.sort((a, b) => a[0] - b[0]);
   const merged = [];
-  for(const r of ranges){
-    const last = merged[merged.length-1];
-    if(last && r[0] <= last[1]) last[1] = Math.max(last[1], r[1]);
+  for (const r of ranges) {
+    const last = merged[merged.length - 1];
+    if (last && r[0] <= last[1]) last[1] = Math.max(last[1], r[1]);
     else merged.push([...r]);
   }
   let out = '', pos = 0;
-  for(const [s,e] of merged){
+  for (const [s, e] of merged) {
     out += escapeHtml(text.slice(pos, s));
-    out += '<mark>' + escapeHtml(text.slice(s, e)) + '</mark>';
+    out += '<mark style="background:#fff3cd;color:#856404;padding:0 2px;border-radius:2px;">' + escapeHtml(text.slice(s, e)) + '</mark>';
     pos = e;
   }
   out += escapeHtml(text.slice(pos));
   return out;
 }
 
-function debounce(fn, ms){
-  let timer;
-  return function(...args){
-    clearTimeout(timer);
-    timer = setTimeout(()=>fn.apply(this,args), ms);
-  };
-}
-
-async function loadData(){
+async function loadData() {
   try {
     const res = await fetch(DATA_URL);
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    if(!Array.isArray(json)) throw new Error('数据格式错误，必须是数组');
+    if (!Array.isArray(json)) throw new Error('数据格式错误');
     DATA = json;
     render();
   } catch (err) {
     console.error('数据加载失败:', err);
-    resultsEl.innerHTML = `
-      <div class="empty" style="display:block">
-        <div class="empty-icon">⚠️</div>
-        <p>数据加载失败</p>
-        <p style="font-size:14px;">请检查 data.json 是否存在且格式正确</p>
-      </div>
-    `;
-    totalCountEl.textContent = '加载失败';
+    resultsEl.innerHTML = '';
+    emptyState.style.display = 'block';
+    emptyState.innerHTML = '<div class="icon">⚠️</div><h3>数据加载失败</h3><p>请检查 data.json 文件</p>';
   }
 }
 
-function filterData(){
+function filterData() {
   const q = state.query.trim().toLowerCase();
-  if(!q) return [];
+  if (!q) return [];
   const terms = q.split(/\s+/).filter(Boolean);
-  return DATA.filter(item=>{
-    const hay = (item.name||'').toLowerCase();
-    return terms.every(t=>hay.includes(t));
+  return DATA.filter(item => {
+    const hay = (item.name || '').toLowerCase();
+    return terms.every(t => hay.includes(t));
   });
 }
 
-function render(){
-  if(!DATA.length){
-    emptyEl.style.display = 'block';
-    emptyTitle.textContent = 'data.json 里没有数据';
-    emptyDesc.textContent = '';
-    totalCountEl.textContent = '0 条';
-    return;
-  }
-
+function render() {
   const q = state.query.trim();
-  if(!q){
+  if (!q) {
     resultsEl.innerHTML = '';
-    emptyEl.style.display = 'block';
-    emptyTitle.textContent = '输入关键词开始搜索';
-    emptyDesc.textContent = `当前共有 ${DATA.length} 条资源，输入名称即可查找`;
-    totalCountEl.textContent = `共 ${DATA.length} 条资源`;
+    emptyState.style.display = 'block';
+    emptyState.innerHTML = '<div class="icon">🎮</div><h3>输入关键词开始搜索</h3><p>例如：红警、虐杀原形、魔兽争霸</p>';
     return;
   }
 
   const filtered = filterData();
   const toShow = filtered.slice(0, state.shown);
 
-  totalCountEl.textContent = filtered.length === DATA.length
-    ? `共 ${DATA.length} 条`
-    : `${filtered.length} / ${DATA.length} 条`;
-
-  if(!filtered.length){
+  if (!filtered.length) {
     resultsEl.innerHTML = '';
-    emptyEl.style.display = 'block';
-    emptyTitle.textContent = '没有找到匹配的资源';
-    emptyDesc.textContent = '试试换个关键词，或者减少搜索词';
+    emptyState.style.display = 'block';
+    emptyState.innerHTML = '<div class="icon">🔍</div><h3>没有找到匹配的游戏</h3><p>试试换个关键词</p>';
     return;
   }
 
-  emptyEl.style.display = 'none';
-  resultsEl.innerHTML = toShow.map(item=>{
+  emptyState.style.display = 'none';
+  resultsEl.innerHTML = toShow.map(item => {
     const nameHtml = highlight(item.name, q);
     const link = item.link || '';
     return `
       <div class="result-item">
-        <div class="result-name">${nameHtml}</div>
+        <div class="result-title">${nameHtml}</div>
         <div class="result-link-row">
-          <a class="result-link" href="${escapeHtml(link)}" target="_blank" rel="noopener">${escapeHtml(link)}</a>
-          <button class="copy-btn" data-link="${escapeHtml(link)}">复制</button>
+          <div class="result-link-text">${escapeHtml(link)}</div>
+          <a class="action-btn" href="${escapeHtml(link)}" target="_blank" rel="noopener">获取</a>
         </div>
       </div>
     `;
   }).join('');
 }
 
-const onSearch = debounce(v=>{
-  state.query = v;
-  state.shown = PAGE_SIZE;
-  render();
-}, 200);
-
-searchInput.addEventListener('input', e=>{
-  const v = e.target.value;
-  clearBtn.hidden = !v;
-  onSearch(v);
-});
-
-searchBtn.addEventListener('click', ()=>{
+const doSearch = () => {
   state.query = searchInput.value;
   state.shown = PAGE_SIZE;
   render();
+};
+
+searchBtn.addEventListener('click', doSearch);
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
 });
-
-clearBtn.addEventListener('click', ()=>{
-  searchInput.value = '';
-  clearBtn.hidden = true;
-  state.query = '';
-  state.shown = PAGE_SIZE;
-  render();
-  searchInput.focus();
-});
-
-resultsEl.addEventListener('click', e=>{
-  const btn = e.target.closest('.copy-btn');
-  if(!btn) return;
-  const link = btn.dataset.link;
-  if(!link) return;
-  const done = ()=>{
-    toastEl.textContent = '已复制链接';
-    toastEl.classList.add('show');
-    setTimeout(()=>toastEl.classList.remove('show'), 1500);
-    const old = btn.textContent;
-    btn.textContent = '已复制';
-    setTimeout(()=>btn.textContent = old, 1200);
-  };
-  if(navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(link).then(done).catch(()=>{
-      fallbackCopy(link); done();
-    });
-  }else{
-    fallbackCopy(link); done();
-  }
-});
-
-function fallbackCopy(text){
-  const ta = document.createElement('textarea');
-  ta.value = text; document.body.appendChild(ta);
-  ta.select(); document.execCommand('copy');
-  document.body.removeChild(ta);
-}
-
-const savedTheme = localStorage.getItem('theme');
-if(savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)){
-  document.documentElement.setAttribute('data-theme','dark');
-  themeToggle.textContent = '☀️';
-}
-themeToggle.addEventListener('click', ()=>{
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  if(isDark){
-    document.documentElement.removeAttribute('data-theme');
-    themeToggle.textContent = '🌙';
-    localStorage.setItem('theme','light');
-  }else{
-    document.documentElement.setAttribute('data-theme','dark');
-    themeToggle.textContent = '☀️';
-    localStorage.setItem('theme','dark');
-  }
-});
-
-document.addEventListener('keydown', e=>{
-  if(e.key === '/' && document.activeElement !== searchInput){
-    e.preventDefault();
-    searchInput.focus();
-  }
-  if(e.key === 'Escape' && document.activeElement === searchInput){
-    searchInput.value = '';
-    clearBtn.hidden = true;
+searchInput.addEventListener('input', () => {
+  if (searchInput.value.trim() === '') {
     state.query = '';
     render();
   }
