@@ -2,293 +2,313 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>小白游戏资源库</title>
 <style>
 :root {
-  --bg-gradient: linear-gradient(180deg, #fef8e8 0%, #fde2e4 50%, #fbc2eb 100%);
+  --bg-gradient: linear-gradient(180deg, #fef8e8 0%, #fde2e4 55%, #fbc2eb 100%);
   --card-bg: #ffffff;
   --text-main: #2b2b2b;
   --text-sub: #6a6a6a;
-  --accent-pink: #d94b7b;
+  --text-muted: #a0a0a0;
   --accent-gold: #d4a017;
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
-  --radius-card: 16px;
+  --accent-gradient: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%);
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --radius-card: 14px;
   --radius-pill: 50px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  overflow-x: hidden;
+}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   background: var(--bg-gradient);
+  background-attachment: fixed;
   min-height: 100vh;
   color: var(--text-main);
-  padding-bottom: 40px;
+  padding-bottom: 30px;
+  -webkit-font-smoothing: antialiased;
 }
 
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ============ 顶部标签 ============ */
 .top-nav {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  padding: 24px 0 10px;
+  gap: 8px;
+  padding: 16px 0 6px;
+  flex-wrap: nowrap;
 }
 .nav-tag {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 5px 12px;
   border-radius: var(--radius-pill);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   color: #444;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  white-space: nowrap;
 }
 .nav-tag.star { color: var(--accent-gold); }
 
-.container {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
+/* ============ 大标题 ============ */
 .hero {
   text-align: center;
-  margin-bottom: 30px;
+  margin: 12px 0 20px;
 }
 .hero h1 {
-  font-size: 36px;
+  font-size: clamp(24px, 7vw, 32px);
   font-weight: 800;
   color: #1a1a1a;
   letter-spacing: 1px;
-  margin-bottom: 12px;
+  line-height: 1.2;
+  margin-bottom: 6px;
 }
 .hero .subtitle {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: clamp(14px, 4vw, 16px);
+  font-weight: 700;
   color: var(--accent-gold);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 .hero .desc {
-  font-size: 13px;
+  font-size: clamp(11px, 3vw, 12px);
   color: var(--text-sub);
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
+/* ============ 功能卡片 (手机端强制3列) ============ */
 .features {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr); /* 强制三列 */
+  gap: 8px;
   margin-bottom: 24px;
 }
 .feature-card {
   background: var(--card-bg);
   border-radius: var(--radius-card);
-  padding: 18px 10px;
+  padding: 12px 4px;
   text-align: center;
   box-shadow: var(--shadow-soft);
-  transition: transform 0.2s;
-}
-.feature-card:hover {
-  transform: translateY(-2px);
 }
 .feature-icon {
-  font-size: 28px;
-  margin-bottom: 10px;
+  font-size: clamp(20px, 5vw, 24px);
+  margin-bottom: 6px;
+  line-height: 1;
 }
 .feature-card h3 {
-  font-size: 14px;
+  font-size: clamp(12px, 3vw, 13px);
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 0;
 }
+/* 手机端隐藏卡片描述，让布局极度紧凑 */
 .feature-card p {
-  font-size: 11px;
-  color: var(--text-sub);
-  line-height: 1.4;
+  display: none;
 }
 
+/* 宽屏（电脑端）显示描述 */
+@media (min-width: 560px) {
+  .feature-card { padding: 18px 10px; }
+  .feature-card h3 { margin-bottom: 4px; }
+  .feature-card p {
+    display: block;
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.4;
+  }
+}
+
+/* ============ 亮点标签 ============ */
 .tags-section {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .tags-section h4 {
-  font-size: 14px;
-  margin-bottom: 12px;
+  font-size: 13px;
+  margin-bottom: 10px;
   color: var(--text-main);
 }
 .tags-list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 .tag-pill {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(0,0,0,0.04);
-  padding: 5px 14px;
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+  white-space: nowrap;
 }
 .tag-pill .star { color: var(--accent-gold); }
 
+/* ============ 适用场景 ============ */
 .scenario {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
+  padding: 10px 14px;
+  font-size: 12px;
   color: var(--text-sub);
-  margin-bottom: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  line-height: 1.5;
 }
 
+/* ============ 搜索框 (重点修复对齐问题) ============ */
 .search-area {
   background: var(--card-bg);
-  border-radius: 18px;
-  padding: 8px 8px 8px 20px;
+  border-radius: 16px;
   display: flex;
-  align-items: center;
-  box-shadow: 0 8px 24px rgba(217, 75, 123, 0.15);
+  align-items: center; /* 垂直居中 */
+  padding: 6px; /* 统一内边距 */
+  box-shadow: 0 8px 24px rgba(217, 75, 123, 0.12);
   margin-bottom: 24px;
 }
 .search-area input {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 15px;
+  height: 44px; /* 固定高度 */
+  padding: 0 12px;
+  font-size: 14px;
   font-family: inherit;
   color: var(--text-main);
   background: transparent;
   min-width: 0;
 }
-.search-area input::placeholder { color: #a0a0a0; }
+.search-area input::placeholder { color: var(--text-muted); }
 .search-area button {
-  background: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%);
+  background: var(--accent-gradient);
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: 12px 28px;
-  font-size: 15px;
+  border-radius: 10px;
+  height: 44px; /* 与输入框高度完全一致 */
+  padding: 0 24px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
   font-family: inherit;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.search-area button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(252, 74, 26, 0.3);
-}
+.search-area button:active { transform: scale(0.96); }
 
+/* ============ 结果卡片 ============ */
 .results {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 .result-item {
   background: var(--card-bg);
   border-radius: var(--radius-card);
-  padding: 16px 18px;
+  padding: 14px 16px;
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.result-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 .result-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-main);
   display: flex;
   align-items: center;
   gap: 8px;
+  line-height: 1.4;
+  word-break: break-all;
 }
 .result-title::before {
   content: "🎮";
-  font-size: 18px;
+  font-size: 16px;
+  flex-shrink: 0;
 }
 .result-link-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 .result-link-text {
   flex: 1;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-sub);
   background: #f5f6fa;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
 }
 .action-btn {
   display: inline-block;
-  background: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%);
+  background: var(--accent-gradient);
   color: #fff;
   text-decoration: none;
   font-size: 12px;
   font-weight: 700;
-  padding: 8px 18px;
+  padding: 8px 16px;
   border-radius: 8px;
   white-space: nowrap;
-  transition: opacity 0.2s;
-  border: none;
-  cursor: pointer;
+  flex-shrink: 0;
 }
-.action-btn:hover { opacity: 0.9; }
+.action-btn:active { opacity: 0.85; }
 
+/* ============ 空状态 ============ */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
-  color: #a0a0a0;
+  padding: 40px 20px;
+  color: var(--text-muted);
 }
-.empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.6; }
-.empty-state h3 { font-size: 16px; color: var(--text-sub); margin-bottom: 8px; }
-.empty-state p { font-size: 13px; }
-
-.toast {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: #333;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 50px;
+.empty-state .icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  opacity: 0.6;
+  line-height: 1;
+}
+.empty-state h3 {
   font-size: 14px;
-  opacity: 0;
-  transition: all 0.3s;
-  pointer-events: none;
-  z-index: 999;
+  color: var(--text-sub);
+  margin-bottom: 6px;
 }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.empty-state p {
+  font-size: 12px;
+}
 
+/* ============ 底部 ============ */
 .footer {
   text-align: center;
-  margin-top: 50px;
-  font-size: 12px;
-  color: #a0a0a0;
+  margin-top: 40px;
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
-@media (max-width: 480px) {
-  .hero h1 { font-size: 28px; }
-  .hero .subtitle { font-size: 16px; }
-  .features { grid-template-columns: 1fr 1fr; }
-  .search-area { padding-left: 14px; }
-  .search-area button { padding: 10px 20px; font-size: 14px; }
-  .result-title { font-size: 14px; }
+/* ============ 极小屏微调 ============ */
+@media (max-width: 360px) {
+  .container { padding: 0 12px; }
+  .feature-card { padding: 10px 2px; }
+  .search-area input { height: 40px; font-size: 13px; }
+  .search-area button { height: 40px; padding: 0 16px; font-size: 13px; }
+  .result-item { padding: 12px 14px; }
 }
 </style>
 </head>
@@ -356,8 +376,6 @@ body {
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
 const DATA_URL = 'data.json';
 const PAGE_SIZE = 50;
@@ -370,7 +388,6 @@ const searchInput = $('searchInput');
 const searchBtn = $('searchBtn');
 const resultsEl = $('results');
 const emptyState = $('emptyState');
-const toastEl = $('toast');
 
 function escapeHtml(s) {
   if (s == null) return '';
